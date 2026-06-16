@@ -1,0 +1,7 @@
+{
+  "name": "default entry point points to backend API",
+  "command": ["python", "main.py"],
+  "cwd": ".",
+  "expect_exit_code": 0,
+  "expect_stdout_contains": ["uv run uvicorn backend.main:app --reload"]
+}

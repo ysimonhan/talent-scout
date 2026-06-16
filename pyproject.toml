@@ -1,0 +1,36 @@
+[project]
+name = "talent-scout"
+version = "0.1.0"
+description = "Sanitized fullstack AI sourcing workflow prototype"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.115.0",
+  "pgvector>=0.3.2",
+  "pydantic-settings>=2.4.0",
+  "psycopg2-binary>=2.9.9",
+  "requests>=2.32.0",
+  "sqlalchemy>=2.0.30",
+  "uvicorn>=0.30.0",
+]
+
+[dependency-groups]
+dev = [
+  "httpx>=0.27.0",
+  "pytest>=8.3.0",
+  "ruff>=0.6.0",
+]
+
+[tool.ruff]
+line-length = 100
+
+[tool.pytest.ini_options]
+addopts = "-q --basetemp=.pytest-tmp --import-mode=importlib"
+pythonpath = ["."]
+testpaths = ["tests", "backend/tests"]
+
+[tool.repo_harness]
+level = "core"
+smoke_dir = "evals/smoke"
+fixture_dir = "tests/fixtures"
+generated_dir = "docs/generated"

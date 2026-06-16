@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Recruiting Workday Demo</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #eef3f6;
+        color: #18242c;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      header {
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 28px;
+        background: #ffffff;
+        border-bottom: 1px solid #d8e1e6;
+      }
+
+      .brand {
+        font-weight: 850;
+        color: #f0c400;
+        letter-spacing: 1.2px;
+        font-size: 24px;
+      }
+
+      main {
+        max-width: 1180px;
+        margin: 28px auto;
+        padding: 0 24px 40px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        gap: 18px;
+        align-items: start;
+      }
+
+      .stack {
+        display: grid;
+        gap: 18px;
+      }
+
+      .two-col {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 0.82fr);
+        gap: 18px;
+      }
+
+      .card,
+      .panel {
+        background: #ffffff;
+        border: 1px solid #d8e1e6;
+        border-radius: 8px;
+        box-shadow: 0 14px 32px -28px rgba(22, 39, 52, 0.5);
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .panel {
+        overflow: hidden;
+      }
+
+      .panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 16px 18px;
+        border-bottom: 1px solid #e7edf0;
+        background: #fbfcfd;
+      }
+
+      .panel-body {
+        padding: 18px;
+      }
+
+      .avatar {
+        width: 72px;
+        height: 72px;
+        border-radius: 999px;
+        display: grid;
+        place-items: center;
+        background: #12313d;
+        color: #ffd700;
+        font-size: 24px;
+        font-weight: 800;
+        margin-bottom: 14px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      h2 {
+        font-size: 15px;
+      }
+
+      h3 {
+        font-size: 14px;
+        margin-bottom: 6px;
+      }
+
+      .muted {
+        color: #65747c;
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .meta {
+        display: grid;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .meta-row {
+        display: grid;
+        gap: 3px;
+        padding-top: 10px;
+        border-top: 1px solid #e7edf0;
+      }
+
+      .label {
+        color: #65747c;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .value {
+        font-size: 13px;
+        font-weight: 650;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        margin: 6px 6px 0 0;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: #eef6f8;
+        color: #254554;
+        font-size: 12px;
+        border: 1px solid #d3e4ea;
+      }
+
+      .status-pill {
+        background: #fff8dc;
+        color: #6f5300;
+        border-color: #ead47a;
+      }
+
+      .row {
+        padding: 13px 0;
+        border-top: 1px solid #e7edf0;
+      }
+
+      .row:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+
+      .timeline {
+        display: grid;
+        gap: 14px;
+      }
+
+      .event {
+        display: grid;
+        grid-template-columns: 108px 1fr;
+        gap: 14px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid #e7edf0;
+      }
+
+      .event:last-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .event-date {
+        color: #65747c;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .doc-button {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border: 1px solid #cfdde3;
+        background: #f7fafb;
+        color: #18242c;
+        border-radius: 8px;
+        padding: 12px 13px;
+        cursor: pointer;
+        text-align: left;
+        font: inherit;
+      }
+
+      .doc-button:hover {
+        border-color: #94afbd;
+        background: #eef6f8;
+      }
+
+      .doc-main {
+        display: grid;
+        gap: 2px;
+      }
+
+      .chevron {
+        font-size: 18px;
+        color: #65747c;
+      }
+
+      .cv-preview {
+        display: none;
+        margin-top: 12px;
+        border: 1px solid #d8e1e6;
+        border-radius: 8px;
+        background: #ffffff;
+        padding: 16px;
+      }
+
+      .cv-preview.open {
+        display: block;
+      }
+
+      .cv-section {
+        padding: 12px 0;
+        border-top: 1px solid #e7edf0;
+      }
+
+      .cv-section:first-child {
+        padding-top: 0;
+        border-top: 0;
+      }
+
+      ul {
+        margin: 8px 0 0;
+        padding-left: 18px;
+      }
+
+      li {
+        margin: 5px 0;
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .warning {
+        border-left: 3px solid #e8b43a;
+        background: #fffaf0;
+        padding: 10px 12px;
+        border-radius: 6px;
+        color: #5d4700;
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      @media (max-width: 860px) {
+        header {
+          padding: 0 18px;
+        }
+
+        main {
+          padding: 0 16px 32px;
+        }
+
+        .grid,
+        .two-col,
+        .event {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="brand">DemoCo</div>
+      <div class="muted">Workday Recruiting · Demo</div>
+    </header>
+    <main>
+      <div class="grid">
+        <aside class="card">
+          <div class="avatar" id="initials">--</div>
+          <h1 id="name">Kandidat</h1>
+          <p class="muted" id="headline">Synthetisches Profil</p>
+          <div id="tags"></div>
+
+          <div class="meta">
+            <div class="meta-row">
+              <span class="label">Quelle</span>
+              <span class="value" id="source">Workday</span>
+            </div>
+            <div class="meta-row">
+              <span class="label">Status</span>
+              <span class="value" id="status">Archiviert / Demo</span>
+            </div>
+            <div class="meta-row">
+              <span class="label">Recruiting Owner</span>
+              <span class="value" id="owner">Demo Recruiting</span>
+            </div>
+            <div class="meta-row">
+              <span class="label">Letzte Aktualisierung</span>
+              <span class="value" id="lastUpdated">-</span>
+            </div>
+          </div>
+        </aside>
+
+        <section class="stack">
+          <section class="panel">
+            <div class="panel-header">
+              <h2>Bisherige Bewerbung</h2>
+              <span class="pill status-pill" id="applicationStatus">Demo</span>
+            </div>
+            <div class="panel-body two-col">
+              <div>
+                <div class="row">
+                  <h3 id="appliedRole">Rolle</h3>
+                  <p class="muted" id="applicationMeta">Bewerbungsdaten</p>
+                </div>
+                <div class="row">
+                  <h3>Hiring-Team Notiz</h3>
+                  <p class="muted" id="hiringNote">Keine Notiz vorhanden.</p>
+                </div>
+                <div class="row">
+                  <h3>Pipeline-Historie</h3>
+                  <div id="pipelineHistory"></div>
+                </div>
+              </div>
+              <div>
+                <button class="doc-button" id="cvToggle" type="button" aria-expanded="false" aria-controls="cvPreview">
+                  <span class="doc-main">
+                    <strong id="cvTitle">CV ansehen</strong>
+                    <span class="muted" id="cvMeta">Mock CV · PDF Vorschau</span>
+                  </span>
+                  <span class="chevron" aria-hidden="true">›</span>
+                </button>
+                <div class="cv-preview" id="cvPreview">
+                  <div class="cv-section">
+                    <h3>Profilzusammenfassung</h3>
+                    <p class="muted" id="cvSummary"></p>
+                  </div>
+                  <div class="cv-section">
+                    <h3>Berufserfahrung</h3>
+                    <ul id="cvExperience"></ul>
+                  </div>
+                  <div class="cv-section">
+                    <h3>Skills & Zertifikate</h3>
+                    <ul id="cvSkills"></ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <h2>Kontakt- und Interaktionshistorie</h2>
+              <span class="muted" id="interactionCount">0 Einträge</span>
+            </div>
+            <div class="panel-body">
+              <div class="timeline" id="interactions"></div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <h2>Recruiting-Notizen</h2>
+              <span class="muted">Synthetisch</span>
+            </div>
+            <div class="panel-body">
+              <div class="warning" id="notes"></div>
+            </div>
+          </section>
+        </section>
+      </div>
+    </main>
+    <script>
+      const profiles = {
+        miriam: {
+          name: "Miriam S.",
+          headline: "PMP · Großprojekte · Stakeholder Management",
+          source: "Workday Initiativbewerbung",
+          status: "Talentpool · Telefonische Ansprache offen",
+          owner: "Laura M. · Demo Recruiting",
+          lastUpdated: "18.03.2026",
+          tags: ["Voice Outreach", "PMP"],
+          applicationStatus: "Abgeschlossen · Talentpool",
+          appliedRole: "Senior Projektmanagerin Transformation",
+          applicationMeta: "Bewerbung eingegangen am 14.02.2026 · Standort Oldenburg / hybrid · Quelle: Initiativbewerbung",
+          hiringNote:
+            "Starker Governance- und Stakeholder-Fit. Kein passendes Mandat im Februar; für spätere IT-/Transformation-Rollen im Talentpool halten.",
+          pipelineHistory: [
+            "14.02.2026 · Bewerbung eingegangen",
+            "17.02.2026 · Recruiter Screen vorbereitet",
+            "24.02.2026 · Kein aktueller Slot im Hiring-Team",
+            "18.03.2026 · Talentpool-Freigabe und Telefonkontakt dokumentiert",
+          ],
+          cvTitle: "Miriam_S_CV_2026_mock.pdf",
+          cvMeta: "2 Seiten · hochgeladen am 14.02.2026 · Klick öffnet Mock-Vorschau",
+          cvSummary:
+            "Projektmanagerin mit PMP-Zertifizierung, Erfahrung in groß angelegten Transformationsprogrammen und hoher Nähe zu Governance, Reporting und Stakeholder-Steuerung.",
+          cvExperience: [
+            "2021-2026 · Senior Project Manager Transformation · kommunaler Energie- und Infrastrukturkonzern",
+            "2018-2021 · PMO Lead · ERP- und Prozessharmonisierung in reguliertem Umfeld",
+            "2015-2018 · Projektkoordinatorin · bereichsübergreifende Digitalisierungsinitiativen",
+          ],
+          cvSkills: [
+            "PMP, Projektgovernance, Lenkungskreise, Risiko- und Entscheidungslog",
+            "Stakeholder Management, Reporting, Anbietersteuerung",
+            "SAP-nahe Transformationsprojekte, Prozessdesign, Change-Kommunikation",
+          ],
+          interactions: [
+            {
+              date: "18.03.2026",
+              title: "Outlook · Rückfrage zur Verfügbarkeit",
+              body: "Recruiting fragte nach grundsätzlicher Wechselbereitschaft und bevorzugten Kontaktzeiten. Keine Terminbuchung dokumentiert.",
+            },
+            {
+              date: "24.02.2026",
+              title: "Workday · Hiring-Team Review",
+              body: "Profil fachlich interessant, aber kein aktiver Slot in der Transformationseinheit. Markiert für Talentpool.",
+            },
+            {
+              date: "14.02.2026",
+              title: "Workday · Initiativbewerbung",
+              body: "CV und PMP-Zertifikat eingegangen. Automatische Eingangsbestätigung versendet.",
+            },
+          ],
+          notes:
+            "Demo-Hinweis: Die Daten simulieren ein Workday-Profil. Für echte Nutzung müssten CV, Bewerbungshistorie und E-Mail-Interaktionen über freigegebene Backend-APIs geladen und berechtigt geprüft werden.",
+        },
+        petra: {
+          name: "Petra F.",
+          headline: "Archivprofil · Datenprojekte · Aktualität unklar",
+          source: "Workday Archiv",
+          status: "Archiviert · Aktualisierung erforderlich",
+          owner: "Demo Recruiting Operations",
+          lastUpdated: "03.11.2023",
+          tags: ["Archivprofil", "Outlook offen"],
+          applicationStatus: "Archiviert",
+          appliedRole: "Data Platform Analyst",
+          applicationMeta: "Bewerbung eingegangen am 03.11.2023 · Standort Bremen · Quelle: Workday Karriereportal",
+          hiringNote:
+            "Datenprojekt-Nähe vorhanden. Profil ist veraltet; vor Outreach muss aktuelle Rolle, Tooling und Wechselinteresse validiert werden.",
+          pipelineHistory: [
+            "03.11.2023 · Bewerbung eingegangen",
+            "09.11.2023 · Fachbereich sichtete CV",
+            "20.11.2023 · Absage wegen stärkerem SQL-/Cloud-Kandidatenfeld",
+            "04.03.2024 · Talentpool-Markierung für Datenplattform-Rollen",
+          ],
+          cvTitle: "Petra_F_CV_2023_mock.pdf",
+          cvMeta: "1 Seite · hochgeladen am 03.11.2023 · Klick öffnet Mock-Vorschau",
+          cvSummary:
+            "Business-Analystin mit Erfahrung in Reporting, Datenqualität und Schnittstellenarbeit zwischen Fachbereich und IT. Hands-on Engineering-Tiefe nicht belegt.",
+          cvExperience: [
+            "2020-2023 · Data & Reporting Analyst · regionaler Versorger",
+            "2017-2020 · Business Analyst · Kundenservice- und Abrechnungsprozesse",
+            "2014-2017 · Projektassistenz · BI-Reporting und Prozessdokumentation",
+          ],
+          cvSkills: [
+            "SQL-Grundlagen, Power BI, Datenqualitätschecks, Fachbereichsanforderungen",
+            "Prozessanalyse, Reporting, Workshop-Dokumentation",
+            "Keine aktuellen Nachweise zu Python, dbt oder Airflow im archivierten CV",
+          ],
+          interactions: [
+            {
+              date: "04.03.2024",
+              title: "Outlook · Datenplattform-Rolle nachgefasst",
+              body: "Recruiting sendete Kurzbeschreibung einer Datenplattform-Rolle. Keine Antwort im Demo-Datensatz dokumentiert.",
+            },
+            {
+              date: "20.11.2023",
+              title: "Workday · Bewerbungsprozess geschlossen",
+              body: "Absage mit Talentpool-Option. Grund: fehlende Cloud-/Engineering-Tiefe im damaligen Auswahlprozess.",
+            },
+            {
+              date: "03.11.2023",
+              title: "Workday · Bewerbung Data Platform Analyst",
+              body: "CV eingereicht und automatische Eingangsbestätigung versendet.",
+            },
+          ],
+          notes:
+            "Demo-Hinweis: Dieses Profil ist absichtlich weniger aktuell. Es eignet sich im Sprint zur Erklärung, warum ein Agent Profilalter und fehlende Evidenz markieren sollte.",
+        },
+      };
+
+      const fallbackProfile = {
+        name: "Demo-Kandidat",
+        headline: "Kein Workday-Datensatz",
+        source: "Synthetische Quelle",
+        status: "Nicht vorhanden",
+        owner: "Demo Recruiting",
+        lastUpdated: "-",
+        tags: ["Mock-Up Daten"],
+        applicationStatus: "Kein Datensatz",
+        appliedRole: "Keine frühere Bewerbung",
+        applicationMeta: "Für diese Person liegen in der Demo keine Workday-Daten vor.",
+        hiringNote: "Keine Notiz vorhanden.",
+        pipelineHistory: ["Kein Workday-Prozess im Demo-Datensatz."],
+        cvTitle: "Kein CV vorhanden",
+        cvMeta: "Keine Vorschau verfügbar",
+        cvSummary: "Kein CV im Demo-Datensatz.",
+        cvExperience: ["Keine Erfahrungseinträge vorhanden."],
+        cvSkills: ["Keine Skills hinterlegt."],
+        interactions: [
+          {
+            date: "-",
+            title: "Keine Interaktion",
+            body: "Für diese Person liegen in der Demo keine Workday- oder Outlook-Interaktionen vor.",
+          },
+        ],
+        notes: "Keine echten Systeme angebunden.",
+      };
+
+      const candidateId = new URLSearchParams(window.location.search).get("candidate") || "miriam";
+      const profile = profiles[candidateId] || fallbackProfile;
+
+      const setText = (id, value) => {
+        document.getElementById(id).textContent = value;
+      };
+
+      const renderList = (id, items) => {
+        const node = document.getElementById(id);
+        node.innerHTML = "";
+        items.forEach((item) => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          node.appendChild(li);
+        });
+      };
+
+      const renderPipeline = () => {
+        const node = document.getElementById("pipelineHistory");
+        node.innerHTML = "";
+        profile.pipelineHistory.forEach((item) => {
+          const div = document.createElement("div");
+          div.className = "muted";
+          div.textContent = item;
+          node.appendChild(div);
+        });
+      };
+
+      const renderTags = () => {
+        const node = document.getElementById("tags");
+        node.innerHTML = "";
+        profile.tags.forEach((tag) => {
+          const span = document.createElement("span");
+          span.className = "pill";
+          span.textContent = tag;
+          node.appendChild(span);
+        });
+      };
+
+      const renderInteractions = () => {
+        const node = document.getElementById("interactions");
+        node.innerHTML = "";
+        profile.interactions.forEach((event) => {
+          const wrapper = document.createElement("div");
+          wrapper.className = "event";
+          const date = document.createElement("div");
+          date.className = "event-date";
+          date.textContent = event.date;
+          const content = document.createElement("div");
+          const title = document.createElement("h3");
+          title.textContent = event.title;
+          const body = document.createElement("p");
+          body.className = "muted";
+          body.textContent = event.body;
+          content.append(title, body);
+          wrapper.append(date, content);
+          node.appendChild(wrapper);
+        });
+        setText("interactionCount", `${profile.interactions.length} Einträge`);
+      };
+
+      setText("name", profile.name);
+      setText("headline", profile.headline);
+      setText("source", profile.source);
+      setText("status", profile.status);
+      setText("owner", profile.owner);
+      setText("lastUpdated", profile.lastUpdated);
+      setText("applicationStatus", profile.applicationStatus);
+      setText("appliedRole", profile.appliedRole);
+      setText("applicationMeta", profile.applicationMeta);
+      setText("hiringNote", profile.hiringNote);
+      setText("cvTitle", profile.cvTitle);
+      setText("cvMeta", profile.cvMeta);
+      setText("cvSummary", profile.cvSummary);
+      setText("notes", profile.notes);
+      setText("initials", profile.name.split(" ").map((part) => part[0]).join("").slice(0, 2));
+
+      renderTags();
+      renderPipeline();
+      renderList("cvExperience", profile.cvExperience);
+      renderList("cvSkills", profile.cvSkills);
+      renderInteractions();
+
+      const cvToggle = document.getElementById("cvToggle");
+      const cvPreview = document.getElementById("cvPreview");
+      cvToggle.addEventListener("click", () => {
+        const isOpen = cvPreview.classList.toggle("open");
+        cvToggle.setAttribute("aria-expanded", String(isOpen));
+      });
+    </script>
+  </body>
+</html>

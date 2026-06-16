@@ -1,0 +1,10 @@
+{
+    "agents": [
+        {
+            "config": "agent_configs/Candidate-Outreach.json",
+            "id": "INSERT_ELEVENLABS_AGENT_ID",
+            "version_id": "AUTOMATICALLY_INSERTED_BY_ELEVENLABS_AGENT",
+            "branch_id": "AUTOMATICALLY_INSERTED_BY_ELEVENLABS_AGENT"
+        }
+    ]
+}

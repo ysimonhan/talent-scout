@@ -1,0 +1,45 @@
+name: uv-agent-template
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Install Python and sync dependencies
+        working-directory: .
+        run: |
+          uv python install
+          uv sync
+
+      - name: Run tests
+        working-directory: .
+        run: uv run python -m pytest
+
+      - name: Run Ruff checks
+        working-directory: .
+        run: uv run ruff check .
+
+      - name: Check formatting
+        working-directory: .
+        run: uv run ruff format --check .
+
+      - name: Validate repository contract
+        working-directory: .
+        run: uv run python scripts/check_repo.py
+
+      - name: Run smoke harness
+        working-directory: .
+        run: uv run python scripts/run_harness.py

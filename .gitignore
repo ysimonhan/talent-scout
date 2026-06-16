@@ -1,0 +1,31 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.pytest_cache/
+.ruff_cache/
+.uv-cache/
+.npm-cache/
+.logs/
+.handoff-*/
+.tmp/
+.pytest-tmp/
+
+# Virtual environments
+.venv
+node_modules/
+frontend/node_modules/
+frontend/dist/
+
+# Local environment
+.env
+
+# Local repo bootstrap leftovers
+.git_repo_backup/
+
+# Generated harness artifacts
+docs/generated/*
+!docs/generated/README.md

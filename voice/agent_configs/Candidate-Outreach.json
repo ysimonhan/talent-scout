@@ -1,0 +1,780 @@
+{
+    "name": "Candidate Outreach",
+    "conversation_config": {
+        "asr": {
+            "quality": "high",
+            "provider": "scribe_realtime",
+            "user_input_audio_format": "ulaw_8000",
+            "keywords": []
+        },
+        "turn": {
+            "turn_timeout": 7,
+            "silence_end_call_timeout": -1,
+            "mode": "turn",
+            "turn_eagerness": "normal",
+            "spelling_patience": "auto",
+            "speculative_turn": true,
+            "retranscribe_on_turn_timeout": false,
+            "turn_model": "turn_v2",
+            "interruption_ignore_terms": [],
+            "soft_timeout_config": {
+                "timeout_seconds": -1,
+                "message": "Hhmmmm...yeah.",
+                "additional_soft_timeout_messages": [],
+                "use_llm_generated_message": false,
+                "max_soft_timeouts_per_generation": 1,
+                "llm_generated_message_prompt_override": null
+            }
+        },
+        "tts": {
+            "model_id": "eleven_v3_conversational",
+            "voice_id": "MOOG1hZESAxDt4UaletY",
+            "supported_voices": [],
+            "expressive_mode": true,
+            "suggested_audio_tags": [
+                {
+                    "tag": "supportive"
+                },
+                {
+                    "tag": "encouraging"
+                },
+                {
+                    "tag": "efficient"
+                },
+                {
+                    "tag": "Seriously",
+                    "description": "When the agent is talking with the candidate about the specific role and the requirements"
+                },
+                {
+                    "tag": "Confidently",
+                    "description": "During introduction and getting to now the candidate"
+                }
+            ],
+            "agent_output_audio_format": "pcm_16000",
+            "optimize_streaming_latency": 3,
+            "stability": 0.5,
+            "speed": 1,
+            "similarity_boost": 0.8,
+            "text_normalisation_type": "system_prompt",
+            "pronunciation_dictionary_locators": [],
+            "enable_phoneme_tags": false
+        },
+        "conversation": {
+            "text_only": false,
+            "max_duration_seconds": 1800,
+            "client_events": [
+                "audio",
+                "interruption",
+                "agent_response",
+                "user_transcript",
+                "agent_response_correction",
+                "agent_tool_response"
+            ],
+            "file_input": {
+                "enabled": true,
+                "max_files_per_conversation": 10
+            },
+            "monitoring_enabled": false,
+            "monitoring_events": [
+                "user_transcript",
+                "agent_response",
+                "agent_response_correction"
+            ],
+            "dtmf_input_settings": null,
+            "background_sound": {
+                "source_type": null,
+                "source_id": null,
+                "volume": 0.6,
+                "crossfade_loop": false
+            },
+            "source_attribution": false
+        },
+        "language_presets": {},
+        "vad": {
+            "background_voice_detection": false
+        },
+        "agent": {
+            "first_message": "Hi! Mit wem spreche ich gerade?",
+            "language": "de",
+            "hinglish_mode": false,
+            "dynamic_variables": {
+                "dynamicVariablePlaceholders": {
+                    "candidate_name": "",
+                    "candidate_source": "",
+                    "candidate_descriptor": "",
+                    "candidate_context": "",
+                    "prior_interactions": "",
+                    "role_title": "",
+                    "role_requirements": "",
+                    "role_fit_rationale": "",
+                    "recruiter_intro": "",
+                    "interest": ""
+                }
+            },
+            "disable_first_message_interruptions": false,
+            "max_conversation_duration_message": "",
+            "text_behavior_overrides": null,
+            "prompt": {
+                "prompt": "Personality\nDu bist Laura, eine professionelle Recruiterin der DemoCo AG. Du sprichst ruhig, freundlich und direkt auf Deutsch. Der Call ist kein generischer Cold Call, sondern ein kurzer, kontextbasierter Outreach zu einem bestehenden Demo-Talentpool-Kontakt.\n\nMission\nFühre einen kurzen Voice-Outreach für eine konkrete DemoCo-Rolle. Nutze ausschließlich die dynamischen Variablen, die beim Callstart übergeben werden:\n- {{candidate_name}}\n- {{candidate_source}}\n- {{candidate_descriptor}}\n- {{candidate_context}}\n- {{prior_interactions}}\n- {{role_title}}\n- {{role_requirements}}\n- {{role_fit_rationale}}\n- {{recruiter_intro}}\n\nGesprächsablauf\n1. Intro: Verwende die erste Nachricht aus {{recruiter_intro}} und prüfe, ob die Person kurz sprechen kann.\n2. Kontext: Nenne maximal einen vorhandenen Kontextpunkt aus {{candidate_source}}, {{candidate_descriptor}} oder {{prior_interactions}}.\n3. Rollenfit: Erkläre in 1-2 Sätzen, warum {{role_title}} grundsätzlich passen könnte. Stütze dich auf {{role_requirements}} und {{role_fit_rationale}}.\n4. Interesse: Frage, ob der Start des Bewerbungsprozesses für die Rolle interessant wäre.\n5. Abschluss: Wenn interessiert, kündige die Weiterleitung der Stellenausschreibung und der Bitte um Nachreichung der offenen Unterlagen in einen Recruiter-Follow-up via Mail an. Wenn nicht interessiert oder keine Zeit, bedanke dich knapp und beende sauber.\n\nWichtige Regeln\n- Erfinde keine Kandidatenfakten. Wenn eine Information fehlt, sage nur: \"Dazu hat unser Team aktuell nur begrenzte Informationen.\"\n- Erwähne niemals Gehalt, Vergütung, Bonus, Benefits, Compensation oder Arbeitgeberleistungen.\n- Frage nicht nach Alter, Religion, Familienstand, Behinderung, Schwangerschaft, Herkunft, Gesundheitsdaten oder anderen geschützten Merkmalen.\n- Versprich keine Einstellung, kein Interview und keine konkrete Entscheidung.\n- Halte Antworten kurz: meistens 1-3 Sätze.\n- Wenn die Person nicht sprechen möchte, nicht interessiert ist, sich verabschiedet oder nicht mehr kontaktiert werden möchte: respektvoll bestätigen und das end_call Tool aufrufen.\n- Verwende keine Tool- oder Systemdetails im Gespräch.",
+                "llm": "qwen36-35b-a3b",
+                "temperature": 0.6,
+                "max_tokens": -1,
+                "tool_ids": [],
+                "built_in_tools": {
+                    "end_call": {
+                        "type": "system",
+                        "name": "end_call",
+                        "description": "End the call",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "pre_tool_speech": "auto",
+                        "assignments": [],
+                        "tool_call_sound_behavior": "auto",
+                        "tool_error_handling_mode": "auto",
+                        "params": {
+                            "system_tool_type": "end_call"
+                        }
+                    },
+                    "language_detection": {
+                        "type": "system",
+                        "name": "language_detection",
+                        "description": "Detect the user's language and switch to it.",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "pre_tool_speech": "auto",
+                        "assignments": [],
+                        "tool_call_sound_behavior": "auto",
+                        "tool_error_handling_mode": "auto",
+                        "params": {
+                            "system_tool_type": "language_detection"
+                        }
+                    },
+                    "update_state": null,
+                    "memory_entry_search": null,
+                    "memory_entry_create": null,
+                    "memory_entry_update": null,
+                    "memory_entry_delete": null,
+                    "agent_prompt_change": null,
+                    "procedure_update": null,
+                    "procedure_create": null,
+                    "procedure_delete": null,
+                    "transfer_to_genesys_chat": null
+                },
+                "enable_parallel_tool_calls": false,
+                "mcp_server_ids": [],
+                "native_mcp_server_ids": [],
+                "knowledge_base": [
+                    {
+                        "type": "file",
+                        "name": "📋 Agent Knowledge Base –...",
+                        "id": "TQsa38sz4JPYTLoaE4nE",
+                        "usage_mode": "auto"
+                    }
+                ],
+                "speech_engine": null,
+                "ignore_default_personality": false,
+                "rag": {
+                    "enabled": false,
+                    "embedding_model": "e5_mistral_7b_instruct",
+                    "optional_rag_enabled": false,
+                    "max_vector_distance": 0.6,
+                    "max_documents_length": 50000,
+                    "max_retrieved_rag_chunks_count": 20
+                },
+                "timezone": "Europe/Berlin",
+                "backup_llm_config": {
+                    "preference": "default"
+                },
+                "cascade_timeout_seconds": 8,
+                "tools": [
+                    {
+                        "type": "system",
+                        "name": "end_call",
+                        "description": "End the call",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "pre_tool_speech": "auto",
+                        "assignments": [],
+                        "tool_call_sound_behavior": "auto",
+                        "tool_error_handling_mode": "auto",
+                        "params": {
+                            "system_tool_type": "end_call"
+                        }
+                    },
+                    {
+                        "type": "system",
+                        "name": "language_detection",
+                        "description": "Detect the user's language and switch to it.",
+                        "response_timeout_secs": 20,
+                        "disable_interruptions": false,
+                        "force_pre_tool_speech": false,
+                        "pre_tool_speech": "auto",
+                        "assignments": [],
+                        "tool_call_sound_behavior": "auto",
+                        "tool_error_handling_mode": "auto",
+                        "params": {
+                            "system_tool_type": "language_detection"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "platform_settings": {
+        "evaluation": {
+            "criteria": []
+        },
+        "widget": {
+            "variant": "full",
+            "placement": "bottom-right",
+            "expandable": "never",
+            "avatar": {
+                "type": "orb",
+                "color1": "#2792dc",
+                "color2": "#9ce6e6"
+            },
+            "feedback_mode": "none",
+            "end_feedback": {
+                "type": "rating"
+            },
+            "bg_color": "#ffffff",
+            "text_color": "#000000",
+            "btn_color": "#000000",
+            "btn_text_color": "#ffffff",
+            "border_color": "#e1e1e1",
+            "focus_color": "#000000",
+            "shareable_page_show_terms": true,
+            "show_avatar_when_collapsed": false,
+            "disable_banner": false,
+            "markdown_link_allowed_hosts": [],
+            "markdown_link_include_www": true,
+            "markdown_link_allow_http": true,
+            "mic_muting_enabled": false,
+            "transcript_enabled": false,
+            "text_input_enabled": true,
+            "conversation_mode_toggle_enabled": false,
+            "default_expanded": false,
+            "always_expanded": false,
+            "dismissible": false,
+            "show_agent_status": false,
+            "show_conversation_id": true,
+            "strip_audio_tags": true,
+            "text_contents": {},
+            "styles": {},
+            "language_selector": false,
+            "supports_text_only": true,
+            "language_presets": {}
+        },
+        "data_collection": {
+            "name": {
+                "type": "string",
+                "description": "Candidate or employer name",
+                "is_system_provided": false,
+                "dynamic_variable": "",
+                "constant_value": "",
+                "is_omitted": false
+            },
+            "phone": {
+                "type": "string",
+                "description": "Phone number",
+                "is_system_provided": false,
+                "dynamic_variable": "",
+                "constant_value": "",
+                "is_omitted": false
+            },
+            "type": {
+                "type": "string",
+                "description": "candidate or employer",
+                "is_system_provided": false,
+                "dynamic_variable": "",
+                "constant_value": "",
+                "is_omitted": false
+            },
+            "job_types": {
+                "type": "string",
+                "description": "Job types interested in",
+                "is_system_provided": false,
+                "dynamic_variable": "",
+                "constant_value": "",
+                "is_omitted": false
+            },
+            "availability": {
+                "type": "string",
+                "description": "Days and shifts available",
+                "is_system_provided": false,
+                "dynamic_variable": "",
+                "constant_value": "",
+                "is_omitted": false
+            },
+            "location": {
+                "type": "string",
+                "description": "Preferred work location",
+                "is_system_provided": false,
+                "dynamic_variable": "",
+                "constant_value": "",
+                "is_omitted": false
+            },
+            "experience": {
+                "type": "string",
+                "description": "Experience summary",
+                "is_system_provided": false,
+                "dynamic_variable": "",
+                "constant_value": "",
+                "is_omitted": false
+            },
+            "start_date": {
+                "type": "string",
+                "description": "Available start date",
+                "is_system_provided": false,
+                "dynamic_variable": "",
+                "constant_value": "",
+                "is_omitted": false
+            }
+        },
+        "data_collection_scopes": {},
+        "overrides": {
+            "conversation_config_override": {
+                "asr": {
+                    "keywords": false
+                },
+                "turn": {
+                    "soft_timeout_config": {
+                        "message": false
+                    }
+                },
+                "tts": {
+                    "voice_id": false,
+                    "stability": false,
+                    "speed": false,
+                    "similarity_boost": false
+                },
+                "conversation": {
+                    "text_only": true
+                },
+                "agent": {
+                    "first_message": false,
+                    "language": false,
+                    "max_conversation_duration_message": false,
+                    "prompt": {
+                        "prompt": false,
+                        "llm": false,
+                        "tool_ids": false,
+                        "native_mcp_server_ids": false,
+                        "knowledge_base": false
+                    }
+                }
+            },
+            "custom_llm_extra_body": false,
+            "enable_conversation_initiation_client_data_from_webhook": false,
+            "enable_starting_workflow_node_id_from_client": false
+        },
+        "workspace_overrides": {
+            "webhooks": {
+                "events": [
+                    "transcript"
+                ],
+                "transcript_format": "json",
+                "send_audio": false
+            }
+        },
+        "testing": {
+            "attached_tests": [],
+            "referenced_tests_ids": []
+        },
+        "archived": false,
+        "guardrails": {
+            "version": "1",
+            "focus": {
+                "is_enabled": true
+            },
+            "prompt_injection": {
+                "is_enabled": true
+            },
+            "content": {
+                "execution_mode": "streaming",
+                "config": {
+                    "sexual": {
+                        "is_enabled": false,
+                        "threshold": "medium"
+                    },
+                    "violence": {
+                        "is_enabled": false,
+                        "threshold": "medium"
+                    },
+                    "harassment": {
+                        "is_enabled": true,
+                        "threshold": 0.5
+                    },
+                    "self_harm": {
+                        "is_enabled": false,
+                        "threshold": "medium"
+                    },
+                    "profanity": {
+                        "is_enabled": false,
+                        "threshold": "medium"
+                    },
+                    "religion_or_politics": {
+                        "is_enabled": false,
+                        "threshold": "medium"
+                    },
+                    "medical_and_legal_information": {
+                        "is_enabled": false,
+                        "threshold": "medium"
+                    }
+                },
+                "trigger_action": {
+                    "type": "end_call"
+                }
+            },
+            "moderation": null,
+            "custom": {
+                "config": {
+                    "configs": [
+                        {
+                            "is_enabled": true,
+                            "name": "No discriminatory screening",
+                            "prompt": "Block from asking about age, race, religion, disability, marital status, or other protected characteristics.",
+                            "execution_mode": "streaming",
+                            "model": "gemini-2.5-flash-lite",
+                            "history_message_count": 0,
+                            "trigger_action": {
+                                "type": "end_call"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "auth": {
+            "enable_auth": false,
+            "allowlist": [],
+            "require_origin_header": false
+        },
+        "call_limits": {
+            "agent_concurrency_limit": -1,
+            "daily_limit": 30,
+            "bursting_enabled": true
+        },
+        "ban": null,
+        "smb_metadata": null,
+        "privacy": {
+            "record_voice": true,
+            "retention_days": -1,
+            "delete_transcript_and_pii": false,
+            "delete_audio": false,
+            "apply_to_existing_conversations": false,
+            "zero_retention_mode": false,
+            "conversation_history_redaction": {
+                "enabled": false,
+                "entities": []
+            }
+        },
+        "trust_context": "unknown",
+        "analysis_llm": "gemini-2.5-flash",
+        "alerting": null,
+        "safety": {
+            "is_blocked_ivc": false,
+            "is_blocked_non_ivc": false,
+            "ignore_safety_evaluation": false
+        }
+    },
+    "tags": [
+        "ewe-demo",
+        "recruiting",
+        "voice-outreach"
+    ],
+    "workflow": {
+        "edges": {
+            "context2fit": {
+                "source": "context",
+                "target": "role_fit",
+                "forward_condition": {
+                    "type": "llm",
+                    "label": "Context acknowledged",
+                    "condition": "One prior interaction, source fact, or limited-information statement has been mentioned."
+                }
+            },
+            "fit2interest": {
+                "source": "role_fit",
+                "target": "interest_check",
+                "forward_condition": {
+                    "type": "llm",
+                    "label": "Fit explained",
+                    "condition": "The role fit has been explained using supplied role requirements and fit rationale."
+                }
+            },
+            "interest2close": {
+                "source": "interest_check",
+                "target": "close",
+                "forward_condition": {
+                    "type": "llm",
+                    "label": "Positive Interest",
+                    "condition": "The candidate has indicated interest or uncertainty after the follow-up question."
+                }
+            },
+            "close2end": {
+                "source": "close",
+                "target": "end",
+                "forward_condition": {
+                    "type": "llm",
+                    "label": "Ready to end",
+                    "condition": "The agent has summarized the next step or politely closed the conversation and should end the call."
+                }
+            },
+            "edge_01kqwaq0cce4ft9nxhs5h05zyz": {
+                "source": "start_node",
+                "target": "context",
+                "forward_condition": {
+                    "type": "unconditional"
+                }
+            },
+            "edge_01kv7xp4f1f209p4pn999b18d2": {
+                "source": "interest_check",
+                "target": "node_01kv7xp4f0f209p4pahm7fa0dz",
+                "forward_condition": {
+                    "type": "llm",
+                    "label": "Negative Interest",
+                    "condition": "The candidate has indicated no interest or no time after the follow-up question."
+                }
+            },
+            "edge_01kv7xq1y8f209p4py4amezhyt": {
+                "source": "node_01kv7xqz20f209p4q6j63en54c",
+                "target": "end",
+                "forward_condition": {
+                    "type": "llm",
+                    "label": "Ready to end",
+                    "condition": "The agent has summarized the next step or politely closed the conversation and should end the call."
+                }
+            },
+            "edge_01kv7xqz21f209p4qf6fhdm8nf": {
+                "source": "node_01kv7xp4f0f209p4pahm7fa0dz",
+                "target": "node_01kv7xqz20f209p4q6j63en54c",
+                "forward_condition": {
+                    "type": "unconditional"
+                }
+            }
+        },
+        "nodes": {
+            "start_node": {
+                "type": "start",
+                "position": {
+                    "x": -1.2763287688289466,
+                    "y": 425.0174800200414
+                },
+                "edge_order": [
+                    "edge_01kqwaq0cce4ft9nxhs5h05zyz"
+                ]
+            },
+            "context": {
+                "type": "override_agent",
+                "conversation_config": {
+                    "turn": {
+                        "speculative_turn": true
+                    },
+                    "tts": {
+                        "voice_id": "MOOG1hZESAxDt4UaletY"
+                    },
+                    "conversation": {},
+                    "agent": {
+                        "prompt": {
+                            "built_in_tools": {}
+                        }
+                    }
+                },
+                "additional_prompt": "Intro: Verwende die erste Nachricht aus {{recruiter_intro}}.\n\nZusätzlich Kontext: Nenne genau einen belegten Kontextpunkt aus {{candidate_source}}, {{candidate_descriptor}} oder {{prior_interactions}}. Keine neuen Fakten erfinden. Wenn unklar, sage nur, dass das Team begrenzte Informationen hat.",
+                "additional_knowledge_base": [],
+                "additional_tool_ids": [],
+                "position": {
+                    "x": 0,
+                    "y": 600
+                },
+                "edge_order": [
+                    "context2fit"
+                ],
+                "label": "Context",
+                "entry_behavior": "auto",
+                "auto_advance_after_first_response": false
+            },
+            "role_fit": {
+                "type": "override_agent",
+                "conversation_config": {
+                    "turn": {
+                        "speculative_turn": true
+                    },
+                    "tts": {
+                        "voice_id": "MOOG1hZESAxDt4UaletY"
+                    },
+                    "conversation": {},
+                    "agent": {
+                        "prompt": {
+                            "built_in_tools": {}
+                        }
+                    }
+                },
+                "additional_prompt": "Role Fit: Erkläre in 1-2 Sätzen, warum {{role_title}} passen könnte. Nutze nur {{role_requirements}} und {{role_fit_rationale}}. Keine Vergütung, Benefits oder Arbeitgeberleistungen erwähnen.",
+                "additional_knowledge_base": [
+                    {
+                        "type": "file",
+                        "name": "📋 Agent Knowledge Base –...",
+                        "id": "TQsa38sz4JPYTLoaE4nE",
+                        "usage_mode": "auto"
+                    }
+                ],
+                "additional_tool_ids": [],
+                "position": {
+                    "x": 0,
+                    "y": 900
+                },
+                "edge_order": [
+                    "fit2interest"
+                ],
+                "label": "Role Fit",
+                "entry_behavior": "auto",
+                "auto_advance_after_first_response": false
+            },
+            "interest_check": {
+                "type": "override_agent",
+                "conversation_config": {
+                    "turn": {
+                        "speculative_turn": true
+                    },
+                    "tts": {
+                        "voice_id": "MOOG1hZESAxDt4UaletY"
+                    },
+                    "conversation": {},
+                    "agent": {
+                        "prompt": {
+                            "built_in_tools": {}
+                        }
+                    }
+                },
+                "additional_prompt": "Interest Check: Frage, ob Start des Bewerbungsprozesses interessant wäre. Nicht drängen. Bei Unsicherheit einen kurzen Follow-up anbieten.",
+                "additional_knowledge_base": [
+                    {
+                        "type": "file",
+                        "name": "📋 Agent Knowledge Base –...",
+                        "id": "TQsa38sz4JPYTLoaE4nE",
+                        "usage_mode": "auto"
+                    }
+                ],
+                "additional_tool_ids": [],
+                "position": {
+                    "x": 0,
+                    "y": 1200
+                },
+                "edge_order": [
+                    "interest2close",
+                    "edge_01kv7xp4f1f209p4pn999b18d2"
+                ],
+                "label": "Interest Check",
+                "entry_behavior": "auto",
+                "auto_advance_after_first_response": false
+            },
+            "close": {
+                "type": "override_agent",
+                "conversation_config": {
+                    "turn": {
+                        "speculative_turn": true
+                    },
+                    "tts": {
+                        "voice_id": "MOOG1hZESAxDt4UaletY"
+                    },
+                    "conversation": {},
+                    "agent": {
+                        "prompt": {
+                            "built_in_tools": {}
+                        }
+                    }
+                },
+                "additional_prompt": "Close: Bei Interesse kündige Versand der Stellenausschreibung sowie Bitte für Nachreichung von Unterlagen in einen Recruiter-Follow-up via Mail an. Danach end_call nutzen.",
+                "additional_knowledge_base": [
+                    {
+                        "type": "file",
+                        "name": "📋 Agent Knowledge Base –...",
+                        "id": "uv0Xb4MmIt7JZiLKhaq4",
+                        "usage_mode": "auto"
+                    }
+                ],
+                "additional_tool_ids": [],
+                "position": {
+                    "x": 0,
+                    "y": 1500
+                },
+                "edge_order": [
+                    "close2end"
+                ],
+                "label": "Close",
+                "entry_behavior": "auto",
+                "auto_advance_after_first_response": false
+            },
+            "end": {
+                "type": "end",
+                "position": {
+                    "x": 0,
+                    "y": 1800
+                },
+                "edge_order": []
+            },
+            "node_01kv7xp4f0f209p4pahm7fa0dz": {
+                "type": "update_state",
+                "position": {
+                    "x": 326.3633827835184,
+                    "y": 1489.168207029512
+                },
+                "edge_order": [
+                    "edge_01kv7xqz21f209p4qf6fhdm8nf"
+                ],
+                "label": "",
+                "updates": [
+                    {
+                        "type": "dynamic_variable",
+                        "variable_name": "interest",
+                        "expression": {
+                            "type": "llm",
+                            "value_schema": {
+                                "type": "string",
+                                "description": "Boolean \"yes\" or \"no\"",
+                                "enum": null
+                            },
+                            "prompt": "Boolean \"yes\" or \"no\""
+                        }
+                    }
+                ]
+            },
+            "node_01kv7xqz20f209p4q6j63en54c": {
+                "type": "override_agent",
+                "conversation_config": {
+                    "turn": {
+                        "speculative_turn": true
+                    },
+                    "tts": {
+                        "voice_id": "MOOG1hZESAxDt4UaletY"
+                    },
+                    "conversation": {},
+                    "agent": {
+                        "prompt": {
+                            "built_in_tools": {}
+                        }
+                    }
+                },
+                "additional_prompt": "Close: Bei Desinteresse oder Zeitmangel bedanke dich knapp. Wenn die Person nicht mehr kontaktiert werden möchte, bestätige das respektvoll. Danach end_call nutzen.",
+                "additional_knowledge_base": [],
+                "additional_tool_ids": [],
+                "position": {
+                    "x": 317.77110878874197,
+                    "y": 1638.4194400682622
+                },
+                "edge_order": [
+                    "edge_01kv7xq1y8f209p4py4amezhyt"
+                ],
+                "label": "Close",
+                "entry_behavior": "auto",
+                "auto_advance_after_first_response": false
+            }
+        },
+        "prevent_subagent_loops": false
+    }
+}
