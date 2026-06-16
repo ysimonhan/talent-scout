@@ -2,7 +2,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    database_url: str = "postgresql+psycopg2://postgres:postgres@localhost:5432/sourcing_demo"
+    database_url: str
     cors_origins: str = "http://localhost:5173"
     voice_mode: str = "live"
     allow_live_calls: bool = False
