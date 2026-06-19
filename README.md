@@ -1,6 +1,6 @@
 # Talent Scout
 
-Talent Scout is an AI sourcing agent [demo]([url](https://talentscout-demo.up.railway.app/)) with a FastAPI
+Talent Scout is a fullstack AI sourcing agent demo with a FastAPI
 backend, Vite/React frontend, PostgreSQL/pgvector persistence, recruiter
 approval gates, and an optional backend-mediated voice outreach path.
 
@@ -22,7 +22,7 @@ This repo shows that through a talent sourcing agent workflow:
 
 ## Live Demo
 
-Railway demo link: [TBD]
+Railway demo: [talentscout-demo.up.railway.app](https://talentscout-demo.up.railway.app)
 
 ## Architecture
 
