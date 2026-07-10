@@ -4,12 +4,11 @@ Talent Scout is a fullstack AI sourcing agent demo with a FastAPI
 backend, Vite/React frontend, PostgreSQL/pgvector persistence, recruiter
 approval gates, and an optional backend-mediated voice outreach path.
 
-This is a sanitized public portfolio case study. It uses synthetic demo data
-only and is not connected to any client system, ATS, CRM, or private database.
+It uses synthetic demo data only and is not connected to any client system, ATS, CRM, or private database.
 
-## Why This Exists
+## Why I built this
 
-Making agents actually useful means turning a messy business workflow into a system with explicit state, approval checkpoints, tool boundaries, deployment shape, and failure handling.
+Many clients struggle to make sense of what the possibilities of AI agents are. Moreover, many have not realized, yet, that making agents actually useful means turning messy business workflows into a system with explicit state, approval checkpoints, tool boundaries, deployment shape, and failure handling. 
 
 This repo shows that through a talent sourcing agent workflow:
 
